@@ -8,6 +8,8 @@ var html_strip = require('htmlstrip-native');
 
 var allDocs = [];
 
+var documentCount = 0;
+
 //-------------------------------------
 var walk = function(dir, done) {
   var results = [];
@@ -85,12 +87,12 @@ walk("en", function(err, allDocs) {
             
         }
          retCnt +=1
-         if  (retCnt == 2 )  {
+         if  (retCnt == documentCount )  {
              console.log(invertedIndex)
          }
 
     } 
-
+    var documentCount = allDocs.length;
     allDocs.forEach(function(oneDoc){
        // console.log(oneDoc);
         indexOneDoc(oneDoc, docIndexDone);
