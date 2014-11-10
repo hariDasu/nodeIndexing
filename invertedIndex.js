@@ -58,6 +58,7 @@ indexOneDoc=function(htmlDoc2Index, cbFunc) {
         }
     var text = html_strip.html_strip(htmlFileContent,options)
     var str = text.replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
+    //RegEx: removes everything except alphanumeric characters and whitespace, then collapses multiple adjacent characters to single spaces.
     var tokens = str.split(" ");
     for (var i=0;i<tokens.length;i++){
         var oneWord = tokens[i];
@@ -72,6 +73,7 @@ indexOneDoc=function(htmlDoc2Index, cbFunc) {
 
 //---------- MAIN HERE --------
 
+var uniqWordCount = 0;
 walk("en", function(err, allDocs) {
     if (err) throw err;
     var retCnt=0
@@ -80,15 +82,18 @@ walk("en", function(err, allDocs) {
          //console.log(oneDocIndex.length , "distinct words in",   htmlDoc2Index)
          // process.exit(0)
         for (var word in oneDocIndex) {
+            
             if(!(word in invertedIndex)) {
                 invertedIndex[word] = {}
+                uniqWordCount+=1;
             }
             invertedIndex[word][htmlDoc2Index]=oneDocIndex[word];
             
         }
+       
          retCnt +=1
          if  (retCnt == documentCount )  {
-             console.log(invertedIndex)
+             console.log("Total Words: " + uniqWordCount + " Total documents: " + documentCount )
          }
 
     } 
