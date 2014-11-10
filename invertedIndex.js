@@ -1,7 +1,6 @@
 /*
 vi:  sw=4 ts=4 expandtab
 */
-var indexing = require('./docIndex.js');
 var fs = require('fs');
 var html_strip = require('htmlstrip-native');
 
