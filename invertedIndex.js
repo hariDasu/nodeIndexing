@@ -35,6 +35,7 @@ var walk = function(dir, done) {
 
 //------------------------------------
 
+
 var invertedIndex = {
                    /* word:{
                             doc1:[1,4,],
@@ -45,9 +46,12 @@ var invertedIndex = {
                             doc3:[4,6]
                           },*/
                     };
+
+
+exports.invertedIndex = invertedIndex;
 //------------------------------------
 
-indexOneDoc=function(htmlDoc2Index, cbFunc) {
+var indexOneDoc=function(htmlDoc2Index, cbFunc) {
     var oneDocIndex=new Array()
     htmlFileContent=fs.readFileSync(htmlDoc2Index,"utf8")
     var options ={
@@ -74,37 +78,40 @@ indexOneDoc=function(htmlDoc2Index, cbFunc) {
 //---------- MAIN HERE --------
 
 var uniqWordCount = 0;
-walk("en", function(err, allDocs) {
-    if (err) throw err;
-    var retCnt=0
-//------will be called when a document is indexed (@callback)--------
-    var  docIndexDone = function( htmlDoc2Index, oneDocIndex) { 
-         //console.log(oneDocIndex.length , "distinct words in",   htmlDoc2Index)
-         // process.exit(0)
-        for (var word in oneDocIndex) {
-            
-            if(!(word in invertedIndex)) {
-                invertedIndex[word] = {}
-                uniqWordCount+=1;
+exports.doIndex = function(dir,cbIndexDone){
+    walk(dir, function(err, allDocs) {
+        if (err) throw err;
+        var retCnt=0
+    //------will be called when a document is indexed (@callback)--------
+        var  docIndexDone = function( htmlDoc2Index, oneDocIndex) { 
+             //console.log(oneDocIndex.length , "distinct words in",   htmlDoc2Index)
+             // process.exit(0)
+            for (var word in oneDocIndex) {
+                
+                if(!(word in invertedIndex)) {
+                    invertedIndex[word] = {}
+                    uniqWordCount+=1;
+                }
+                invertedIndex[word][htmlDoc2Index]=oneDocIndex[word];
+                
             }
-            invertedIndex[word][htmlDoc2Index]=oneDocIndex[word];
-            
-        }
-       
-         retCnt +=1
-         if  (retCnt == documentCount )  {
-             console.log("Total Words: " + uniqWordCount + " Total documents: " + documentCount )
-             console.log(invertedIndex);
-         }
+           
+             retCnt +=1
+             if  (retCnt == 2 )  {
+                 console.log("Total Words: " + uniqWordCount + " Total documents: " + documentCount )
+                 //console.log(invertedIndex);
+                 cbIndexDone();
+             }
 
-    } 
-    //------
-    var documentCount = allDocs.length;
+        } 
+        //------
+        var documentCount = allDocs.length;
 
-    //fire document indexing jobs for each document (async)
-    allDocs.forEach(function(oneDoc){ 
-        indexOneDoc(oneDoc, docIndexDone);//use docIndexOne as callback
+        //fire document indexing jobs for each document (async)
+        allDocs.forEach(function(oneDoc){ 
+            indexOneDoc(oneDoc, docIndexDone);//use docIndexOne as callback
 
-    });
-})
+        });
+    })
+};
 

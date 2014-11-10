@@ -1,0 +1,30 @@
+div.text-center.col-lg-12.container
+    h1= title
+    .row
+    div.col-lg-4.pull-left
+        .row
+            .col-lg-6
+                form(action="/search",method="get")
+                    .input-group
+                        input.form-control(type='text',value="Enter one word to search.",id="searchTerm",name="searchTerm")
+                        span.input-group-btn
+                            button.btn.btn-default(type='button,submit') Go!
+                    //
+                            /input-group 
+                  //
+                        /.col-lg-6 
+                //
+                   /.row 
+    div#theResults.col-lg-4.pull-left
+        table#table.table-hover.table-bordered
+            thead
+                tr
+                    th Document
+                    th Position of Word
+            tbody
+            each oneRes in jadeRes
+                tr
+                    td #{oneRes.doc}
+                    td #{oneRes.positions} 
+
+        
