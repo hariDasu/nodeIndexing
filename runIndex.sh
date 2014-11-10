@@ -1,0 +1,1 @@
+node invertedIndex.js | tee invertedIndex.txt

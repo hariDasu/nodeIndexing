@@ -67,6 +67,7 @@ indexOneDoc=function(htmlDoc2Index, cbFunc) {
         var len= oneDocIndex[oneWord].length 
         oneDocIndex[oneWord][len]=i
     }
+    //oneDocIndex returns the index generated from one document
     cbFunc(htmlDoc2Index, oneDocIndex)
 };
 
@@ -76,8 +77,8 @@ var uniqWordCount = 0;
 walk("en", function(err, allDocs) {
     if (err) throw err;
     var retCnt=0
-//------will be called when a document is indexed --------
-    var  docIndexDone = function( htmlDoc2Index, oneDocIndex) {
+//------will be called when a document is indexed (@callback)--------
+    var  docIndexDone = function( htmlDoc2Index, oneDocIndex) { 
          //console.log(oneDocIndex.length , "distinct words in",   htmlDoc2Index)
          // process.exit(0)
         for (var word in oneDocIndex) {
@@ -93,13 +94,16 @@ walk("en", function(err, allDocs) {
          retCnt +=1
          if  (retCnt == documentCount )  {
              console.log("Total Words: " + uniqWordCount + " Total documents: " + documentCount )
+             console.log(invertedIndex);
          }
 
     } 
+    //------
     var documentCount = allDocs.length;
-    allDocs.forEach(function(oneDoc){
-       // console.log(oneDoc);
-        indexOneDoc(oneDoc, docIndexDone);
+
+    //fire document indexing jobs for each document (async)
+    allDocs.forEach(function(oneDoc){ 
+        indexOneDoc(oneDoc, docIndexDone);//use docIndexOne as callback
 
     });
 })
