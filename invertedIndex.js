@@ -97,9 +97,10 @@ exports.doIndex = function(dir,cbIndexDone){
             }
            
              retCnt +=1
-             if  (retCnt == 2 )  {
+             if  (retCnt == documentCount)  {
+                console.log("Total Words: " + uniqWordCount + " Total documents: " + documentCount )
+                 console.log(invertedIndex);
                  console.log("Total Words: " + uniqWordCount + " Total documents: " + documentCount )
-                 //console.log(invertedIndex);
                  cbIndexDone();
              }
 
