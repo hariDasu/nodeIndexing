@@ -5,7 +5,8 @@
 
 var express = require('express')
   , routes = require('./routes');
-var invertedIndex = require('../invertedIndex.js')
+var invertedIndex = require('../invertedIndex.js');
+var jadeRoot = require('./routes/index');
 
 var app = module.exports = express.createServer();
 
@@ -34,8 +35,8 @@ invertedIndex.doIndex("../en",function(){
         // Routes
 
 //    console.log(invertedIndex.invertedIndex);
-    app.get('/', routes.index);
-    app.get('/search', routes.search(invertedIndex.invertedIndex));
+    app.get('/', jadeRoot.index);
+    app.get('/search', jadeRoot.search(invertedIndex.invertedIndex));
 
     app.listen(3000, function(){
       console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

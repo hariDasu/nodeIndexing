@@ -1,11 +1,11 @@
 {
-  "name": "application-name",
+  "name": "nodeIndexing",
   "version": "0.0.1",
   "private": true,
   "description":"scraping with node",
   "author":"Srihari Rao",
   "scripts": {
-    "start": "node app.js"
+    "start": "node appjs"
   },
   "dependencies": {
     "express": "*",

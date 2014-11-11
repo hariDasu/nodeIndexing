@@ -30,7 +30,7 @@ exports.search = function(invertedIndex) {
             jadeResult.push({"doc":i,"positions":positions});
         }
 
-        res.render('index',{'jadeRes': jadeResult})
+        res.render('results',{'jadeRes': jadeResult, title: 'Search Results'})
    
     }
 };

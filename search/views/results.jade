@@ -1,2 +1,15 @@
 extends index
-div#theResults.col-lg-4.pull-left
+
+block content
+	br
+	br
+	table#table.table-hover.table-bordered
+		thead
+			tr
+				th Document
+				th Position of Word
+				tbody
+		each oneRes in jadeRes
+			tr
+				td #{oneRes.doc}
+				td #{oneRes.positions} 
